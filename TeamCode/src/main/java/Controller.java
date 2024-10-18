@@ -1,9 +1,24 @@
-import android.widget.Switch;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-public class Controller {
+/*
+ * ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ * │███╗   ███╗ █████╗ ██████╗ ███████╗        ██████╗ ██╗   ██╗                              │
+ * │████╗ ████║██╔══██╗██╔══██╗██╔════╝        ██╔══██╗╚██╗ ██╔╝                              │
+ * │██╔████╔██║███████║██║  ██║█████╗          ██████╔╝ ╚████╔╝                               │
+ * │██║╚██╔╝██║██╔══██║██║  ██║██╔══╝          ██╔══██╗  ╚██╔╝                                │
+ * │██║ ╚═╝ ██║██║  ██║██████╔╝███████╗        ██████╔╝   ██║                                 │
+ * │╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝        ╚═════╝    ╚═╝                                 │
+ * │                                                                                          │
+ * │ ██████╗ █████╗ ██████╗ ██╗                ██╗  ██╗██╗██╗     ██╗      █████╗ ███╗   ███╗ │
+ * │██╔════╝██╔══██╗██╔══██╗██║                ██║  ██║██║██║     ██║     ██╔══██╗████╗ ████║ │
+ * │██║     ███████║██████╔╝██║                ███████║██║██║     ██║     ███████║██╔████╔██║ │
+ * │██║     ██╔══██║██╔══██╗██║                ██╔══██║██║██║     ██║     ██╔══██║██║╚██╔╝██║ │
+ * │╚██████╗██║  ██║██║  ██║███████╗           ██║  ██║██║███████╗███████╗██║  ██║██║ ╚═╝ ██║ │
+ * │ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝           ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝ │
+ * └──────────────────────────────────────────────────────────────────────────────────────────┘
+ */
+
+public class Controller{
     boolean was_a = false;
     boolean was_y = false;
     boolean was_x = false;
@@ -16,61 +31,181 @@ public class Controller {
     boolean was_ddown = false;
     boolean was_dright = false;
     boolean was_dleft    = false;
+
+    boolean toggle_a = false;
+    boolean toggle_y = false;
+    boolean toggle_x = false;
+    boolean toggle_b = false;
+    boolean toggle_lsb = false;
+    boolean toggle_rsb = false;
+    boolean toggle_rb = false;
+    boolean toggle_lb = false;
+    boolean toggle_dup = false;
+    boolean toggle_ddown = false;
+    boolean toggle_dright = false;
+    boolean toggle_dleft    = false;
+
     Gamepad GamePad;
     public Controller(Gamepad G){
         GamePad = G;
-
     }
-    public boolean CheckButton(String Button){
-        switch (Button){
-            case "a":
-            {
-                return(this.GamePad.a&&!was_a);
+
+
+        public enum Button {
+            a,
+            b,
+            x,
+            y,
+            leftStickButton,
+            rightStickButton,
+            rightBumper,
+            leftBumper,
+            dPadUp,
+            dPadDown,
+            dPadRight,
+            dPadLeft,
+        }
+        public enum Joystick {
+            LeftX,
+            LeftY,
+            RightX,
+            RightY
+        }
+        public enum Trigger {
+            Left,
+            Right,
+        }
+
+    public boolean toggleButtonState(Button input){
+        switch (input){
+            case a: {
+                if(this.GamePad.a&&!this.was_a){
+                    this.toggle_a=!this.toggle_a;
+                }
+                return(this.toggle_a);
             }
-            case "y": return(this.GamePad.y&&!was_y);
-            case "x": return(this.GamePad.x&&!was_x);
-            case "b": return(this.GamePad.b&&!was_b);
-            case "lsb": return(this.GamePad.left_stick_button&&!was_lsb);
-            case "rsb": return(this.GamePad.right_stick_button&&!was_rsb);
-            case "rb": return(this.GamePad.right_bumper&&!was_rb);
-            case "lb": return(this.GamePad.left_bumper&&!was_lb);
-            case "dup": return(this.GamePad.dpad_up&&!was_dup);
-            case "ddown": return(this.GamePad.dpad_down&&!was_ddown);
-            case "dright": return(this.GamePad.dpad_right&&!was_dright);
-            case "dleft": return(this.GamePad.dpad_left&&!was_dleft);
+            case y: {
+                if(this.GamePad.y&&!this.was_y){
+                    this.toggle_b=!this.toggle_b;
+                }
+                return(this.toggle_y);
+            }
+            case x: {
+                if(this.GamePad.x&&!this.was_x){
+                    this.toggle_x=!this.toggle_x;
+                }
+                return(this.toggle_x);
+            }
+            case b: {
+                if(this.GamePad.b&&!this.was_b){
+                    this.toggle_y=!this.toggle_y;
+                }
+                return(this.toggle_b);
+            }
+            case leftStickButton: {
+                if(this.GamePad.left_stick_button&&!this.was_lsb){
+                    this.toggle_lsb=!this.toggle_lsb;
+                }
+                return(this.toggle_lsb);
+            }
+            case rightStickButton: {
+                if(this.GamePad.right_stick_button&&!this.was_rsb){
+                    this.toggle_rsb=!this.toggle_rsb;
+                }
+                return(this.toggle_rsb);
+            }
+            case rightBumper: {
+                if(this.GamePad.right_bumper&&!this.was_rb){
+                    this.toggle_rb=!this.toggle_rb;
+                }
+                return(this.toggle_rb);
+            }
+            case leftBumper: {
+                if(this.GamePad.left_bumper&&!this.was_lb){
+                    this.toggle_lb=!this.toggle_lb;
+                }
+                return(this.toggle_lb);
+            }
+            case dPadUp: {
+                if(this.GamePad.dpad_up&&!this.was_dup){
+                    this.toggle_dup=!this.toggle_dup;
+                }
+                return(this.toggle_dup);
+            }
+            case dPadDown: {
+                if(this.GamePad.dpad_down&&!this.was_ddown){
+                    this.toggle_ddown=!this.toggle_ddown;
+                }
+                return(this.toggle_ddown);
+            }
+            case dPadRight: {
+                if(this.GamePad.dpad_right&&!this.was_dright){
+                    this.toggle_dright=!this.toggle_dright;
+                }
+                return(this.toggle_dright);
+            }
+            case dPadLeft: {
+                if(this.GamePad.dpad_left&&!this.was_dleft){
+                    this.toggle_dleft=!this.toggle_dleft;
+                }
+                return(this.toggle_dleft);
+            }
+            default: return(false);
         }
-        return(false);
+
     }
-    public boolean GetButtonState(String Button){
-        switch (Button){
-            case "a": return(this.GamePad.a);
-            case "y": return(this.GamePad.y);
-            case "x": return(this.GamePad.x);
-            case "b": return(this.GamePad.b);
-            case "lsb": return(this.GamePad.left_stick_button);
-            case "rsb": return(this.GamePad.right_stick_button);
-            case "rb": return(this.GamePad.right_bumper);
-            case "lb": return(this.GamePad.left_bumper);
-            case "dup": return(this.GamePad.dpad_up);
-            case "ddown": return(this.GamePad.dpad_down);
-            case "dright": return(this.GamePad.dpad_right);
-            case "dleft": return(this.GamePad.dpad_left);
+    public boolean onButtonPress(Button input){
+        switch (input){
+            case a: return(GamePad.a&&!this.was_a);
+            case y: return(this.GamePad.y&&!this.was_y);
+            case x: return(this.GamePad.x&&!this.was_x);
+            case b: return(this.GamePad.b&&!this.was_b);
+            case leftStickButton: return(this.GamePad.left_stick_button&&!this.was_lsb);
+            case rightStickButton: return(this.GamePad.right_stick_button&&!this.was_rsb);
+            case rightBumper: return(this.GamePad.right_bumper&&!this.was_rb);
+            case leftBumper: return(this.GamePad.left_bumper&&!this.was_lb);
+            case dPadUp: return(this.GamePad.dpad_up&&!this.was_dup);
+            case dPadDown: return(this.GamePad.dpad_down&&!this.was_ddown);
+            case dPadRight: return(this.GamePad.dpad_right&&!this.was_dright);
+            case dPadLeft: return(this.GamePad.dpad_left&&!this.was_dleft);
+            default: return(false);
         }
-        return(false);
+    }
+    public boolean onButtonHold(Button Input){
+        switch (Input){
+            case a: return(this.GamePad.a);
+            case y: return(this.GamePad.y);
+            case x: return(this.GamePad.x);
+            case b: return(this.GamePad.b);
+            case leftStickButton: return(this.GamePad.left_stick_button);
+            case rightStickButton: return(this.GamePad.right_stick_button);
+            case rightBumper: return(this.GamePad.right_bumper);
+            case leftBumper: return(this.GamePad.left_bumper);
+            case dPadUp: return(this.GamePad.dpad_up);
+            case dPadDown: return(this.GamePad.dpad_down);
+            case dPadRight: return(this.GamePad.dpad_right);
+            case dPadLeft: return(this.GamePad.dpad_left);
+            default: return(false);
+        }
     }
 
-    public float GetAnalogs(String Analog){
-        switch (Analog){
-            case "Lx":return(GamePad.left_stick_x);
-            case "Ly":return(GamePad.left_stick_y);
-            case "Rx":return(GamePad.right_stick_x);
-            case "Ry":return(GamePad.right_stick_y);
-            case "Rt":return(GamePad.right_trigger);
-            case "Lt":return(GamePad.left_trigger);
+    public float getAnalogValue(Joystick Input){
+        switch (Input){
+            case LeftX:return(GamePad.left_stick_x);
+            case LeftY:return(GamePad.left_stick_y);
+            case RightX:return(GamePad.right_stick_x);
+            case RightY:return(GamePad.right_stick_y);
+            default: return((float) 0.0);
         }
-        return((float) 0.0);
     }
-    public void UpdateAll(){
+    public float getTriggerValue(Trigger Input){
+        switch (Input){
+            case Right:return(GamePad.right_trigger);
+            case Left:return(GamePad.left_trigger);
+            default: return((float) 0.0);
+        }
+    }
+    public void updateAll(){
         this.was_a = GamePad.a;
         this.was_y = GamePad.y;
         this.was_x = GamePad.x;

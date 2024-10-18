@@ -1,20 +1,19 @@
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import java.lang.Math;
 
 @TeleOp(name="ControllerDebug", group="Carl")
 
 public class CarlControllerTest extends OpMode{
+    //get the runtime i dunno
 
-    private ElapsedTime runtime = new ElapsedTime();
+    public Controller driver = null;
+    private final ElapsedTime runtime = new ElapsedTime();
+    //import Hardware interface classes
     @Override
     public void init () {
         telemetry.addData("Status", "Please wait robo is starting up");
-
+        driver = new Controller(gamepad1);
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
@@ -27,6 +26,7 @@ public class CarlControllerTest extends OpMode{
 
 
         // Tell the driver that initialization is complete.
+        telemetry.clearAll();
         telemetry.addData("Status", "Initialized");
     }
 
@@ -44,7 +44,6 @@ public class CarlControllerTest extends OpMode{
     @Override
     public void start () {
         runtime.reset();
-        Controller Controller = new Controller(this.gamepad1);
     }
 
 
@@ -52,16 +51,31 @@ public class CarlControllerTest extends OpMode{
      * Code to run REPEATEDLY after the driver hits START but before they hit STOP
      */
     public int i;
-    private boolean wasA = false;
-
+    public int c;
+    public int a;
     @Override
     public void loop () {
-        if(gamepad1.a&&!wasA){
-            i=i+1;
-        }
-        telemetry.addData("i: ",i);
 
-        wasA = gamepad1.a;
+        if(driver.toggleButtonState(Controller.Button.a)){
+            i++;
+        }
+        if(driver.onButtonHold(Controller.Button.a)){
+            a+=1;
+        }
+        if(driver.onButtonPress(Controller.Button.a)){
+           c+=1;
+       }
+        if(driver.onButtonPress(Controller.Button.b)){
+            i=0;
+            c=0;
+            a=0;
+        }
+
+
+        telemetry.addData("driver.getPressState(a): ",i);
+        telemetry.addData("driver.ToggleButtonState(a): ",c);
+        telemetry.addData("driver.GetToggleState(a): ",a);
+        driver.updateAll();
     }
 
     /*-+
