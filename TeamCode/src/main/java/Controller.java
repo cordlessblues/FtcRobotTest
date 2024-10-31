@@ -46,10 +46,7 @@ public class Controller{
     boolean toggle_dleft    = false;
 
     Gamepad GamePad;
-    public Controller(Gamepad G){
-        GamePad = G;
-    }
-
+    public Controller(Gamepad G){GamePad = G;}
 
         public enum Button {
             a,
@@ -77,83 +74,23 @@ public class Controller{
         }
 
     public boolean toggleButtonState(Button input){
-        switch (input){
-            case a: {
-                if(this.GamePad.a&&!this.was_a){
-                    this.toggle_a=!this.toggle_a;
-                }
-                return(this.toggle_a);
-            }
-            case y: {
-                if(this.GamePad.y&&!this.was_y){
-                    this.toggle_b=!this.toggle_b;
-                }
-                return(this.toggle_y);
-            }
-            case x: {
-                if(this.GamePad.x&&!this.was_x){
-                    this.toggle_x=!this.toggle_x;
-                }
-                return(this.toggle_x);
-            }
-            case b: {
-                if(this.GamePad.b&&!this.was_b){
-                    this.toggle_y=!this.toggle_y;
-                }
-                return(this.toggle_b);
-            }
-            case leftStickButton: {
-                if(this.GamePad.left_stick_button&&!this.was_lsb){
-                    this.toggle_lsb=!this.toggle_lsb;
-                }
-                return(this.toggle_lsb);
-            }
-            case rightStickButton: {
-                if(this.GamePad.right_stick_button&&!this.was_rsb){
-                    this.toggle_rsb=!this.toggle_rsb;
-                }
-                return(this.toggle_rsb);
-            }
-            case rightBumper: {
-                if(this.GamePad.right_bumper&&!this.was_rb){
-                    this.toggle_rb=!this.toggle_rb;
-                }
-                return(this.toggle_rb);
-            }
-            case leftBumper: {
-                if(this.GamePad.left_bumper&&!this.was_lb){
-                    this.toggle_lb=!this.toggle_lb;
-                }
-                return(this.toggle_lb);
-            }
-            case dPadUp: {
-                if(this.GamePad.dpad_up&&!this.was_dup){
-                    this.toggle_dup=!this.toggle_dup;
-                }
-                return(this.toggle_dup);
-            }
-            case dPadDown: {
-                if(this.GamePad.dpad_down&&!this.was_ddown){
-                    this.toggle_ddown=!this.toggle_ddown;
-                }
-                return(this.toggle_ddown);
-            }
-            case dPadRight: {
-                if(this.GamePad.dpad_right&&!this.was_dright){
-                    this.toggle_dright=!this.toggle_dright;
-                }
-                return(this.toggle_dright);
-            }
-            case dPadLeft: {
-                if(this.GamePad.dpad_left&&!this.was_dleft){
-                    this.toggle_dleft=!this.toggle_dleft;
-                }
-                return(this.toggle_dleft);
-            }
+        switch (input) {
+            case a: {if(this.GamePad.a&&!this.was_a){this.toggle_a=!this.toggle_a;}return(this.toggle_a);}
+            case y: {if(this.GamePad.y&&!this.was_y){this.toggle_b=!this.toggle_b;}return(this.toggle_y);}
+            case x: {if(this.GamePad.x&&!this.was_x){this.toggle_x=!this.toggle_x;}return(this.toggle_x);}
+            case b: {if(this.GamePad.b&&!this.was_b){this.toggle_y=!this.toggle_y;}return(this.toggle_b);}
+            case leftStickButton: {if(this.GamePad.left_stick_button&&!this.was_lsb){this.toggle_lsb=!this.toggle_lsb;}return(this.toggle_lsb);}
+            case rightStickButton: {if(this.GamePad.right_stick_button&&!this.was_rsb){this.toggle_rsb=!this.toggle_rsb;}return(this.toggle_rsb);}
+            case rightBumper: {if(this.GamePad.right_bumper&&!this.was_rb){this.toggle_rb=!this.toggle_rb;}return(this.toggle_rb);}
+            case leftBumper: {if(this.GamePad.left_bumper&&!this.was_lb){this.toggle_lb=!this.toggle_lb;}return(this.toggle_lb);}
+            case dPadUp: {if(this.GamePad.dpad_up&&!this.was_dup){this.toggle_dup=!this.toggle_dup;}return(this.toggle_dup);}
+            case dPadDown: {if(this.GamePad.dpad_down&&!this.was_ddown){this.toggle_ddown=!this.toggle_ddown;}return(this.toggle_ddown);}
+            case dPadRight: {if(this.GamePad.dpad_right&&!this.was_dright){this.toggle_dright=!this.toggle_dright;}return(this.toggle_dright);}
+            case dPadLeft: {if(this.GamePad.dpad_left&&!this.was_dleft){this.toggle_dleft=!this.toggle_dleft;}return(this.toggle_dleft);}
             default: return(false);
         }
-
     }
+
     public boolean onButtonPress(Button input){
         switch (input){
             case a: return(GamePad.a&&!this.was_a);
@@ -171,6 +108,7 @@ public class Controller{
             default: return(false);
         }
     }
+
     public boolean onButtonHold(Button Input){
         switch (Input){
             case a: return(this.GamePad.a);
@@ -205,6 +143,7 @@ public class Controller{
             default: return((float) 0.0);
         }
     }
+
     public void updateAll(){
         this.was_a = GamePad.a;
         this.was_y = GamePad.y;

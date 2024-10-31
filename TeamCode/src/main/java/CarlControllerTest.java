@@ -1,19 +1,44 @@
+/*
+ * ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+ * │███╗   ███╗ █████╗ ██████╗ ███████╗        ██████╗ ██╗   ██╗                              │
+ * │████╗ ████║██╔══██╗██╔══██╗██╔════╝        ██╔══██╗╚██╗ ██╔╝                              │
+ * │██╔████╔██║███████║██║  ██║█████╗          ██████╔╝ ╚████╔╝                               │
+ * │██║╚██╔╝██║██╔══██║██║  ██║██╔══╝          ██╔══██╗  ╚██╔╝                                │
+ * │██║ ╚═╝ ██║██║  ██║██████╔╝███████╗        ██████╔╝   ██║                                 │
+ * │╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝        ╚═════╝    ╚═╝                                 │
+ * │                                                                                          │
+ * │ ██████╗ █████╗ ██████╗ ██╗                ██╗  ██╗██╗██╗     ██╗      █████╗ ███╗   ███╗ │
+ * │██╔════╝██╔══██╗██╔══██╗██║                ██║  ██║██║██║     ██║     ██╔══██╗████╗ ████║ │
+ * │██║     ███████║██████╔╝██║                ███████║██║██║     ██║     ███████║██╔████╔██║ │
+ * │██║     ██╔══██║██╔══██╗██║                ██╔══██║██║██║     ██║     ██╔══██║██║╚██╔╝██║ │
+ * │╚██████╗██║  ██║██║  ██║███████╗           ██║  ██║██║███████╗███████╗██║  ██║██║ ╚═╝ ██║ │
+ * │ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝           ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝ │
+ * └──────────────────────────────────────────────────────────────────────────────────────────┘
+ */
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+
 
 @TeleOp(name="ControllerDebug", group="Carl")
 
 public class CarlControllerTest extends OpMode{
     //get the runtime i dunno
-
     public Controller driver = null;
     private final ElapsedTime runtime = new ElapsedTime();
+    public CRServo Seervo = null;
     //import Hardware interface classes
     @Override
     public void init () {
         telemetry.addData("Status", "Please wait robo is starting up");
         driver = new Controller(gamepad1);
+        Seervo = hardwareMap.get(CRServo.class,"Claw");
+
+
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
@@ -42,39 +67,20 @@ public class CarlControllerTest extends OpMode{
      * Code to run ONCE when the driver hits START
      */
     @Override
-    public void start () {
-        runtime.reset();
-    }
+    public void start () {runtime.reset();}
 
 
     /*
      * Code to run REPEATEDLY after the driver hits START but before they hit STOP
      */
-    public int i;
-    public int c;
-    public int a;
     @Override
     public void loop () {
+        double ServoPow = 0.0;
+        double pow = 0.1;
 
-        if(driver.toggleButtonState(Controller.Button.a)){
-            i++;
-        }
-        if(driver.onButtonHold(Controller.Button.a)){
-            a+=1;
-        }
-        if(driver.onButtonPress(Controller.Button.a)){
-           c+=1;
-       }
-        if(driver.onButtonPress(Controller.Button.b)){
-            i=0;
-            c=0;
-            a=0;
-        }
+        telemetry.addData("Debug Servo | ", ServoPow);
+        //Seervo.setPower(ServoPow);
 
-
-        telemetry.addData("driver.getPressState(a): ",i);
-        telemetry.addData("driver.ToggleButtonState(a): ",c);
-        telemetry.addData("driver.GetToggleState(a): ",a);
         driver.updateAll();
     }
 
